@@ -16,14 +16,14 @@ export default function ListPizzaPage() {
     }, []);
 
     const items = data.map((item) => (
-        <Col key={item.id} style={{ marginBottom: '20px' }}>
-            <Card style={{ border: '1px solid #ccc' }}>
+        <Col key={item.id} sm={4} style={{ marginTop: '10px', marginBottom: '20px' }}>
+            <Card>
                 <Card.Img variant="top" src={item.kepURL} onError={(e) => {
-                    e.target.src = "https://placeholders.dev?width=200&height=200";
-                }} style={{ objectFit: 'cover', width: 400, height: 400 }} />
-                <Card.Body>
+                    e.target.src = "https://images.placeholders.dev?width=400&height=400";
+                }} style={{ objectFit: 'cover', height: '25vw', width: '100%' }} />
+                <Card.Body style={{ textAlign: 'center' }}>
                     <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>Gluténmentes? {item.isGlutenFree ? 'igen' : 'nem'}</Card.Text>
+                    <Card.Text style={{ color: item.isGlutenFree ? 'green' : 'red', fontWeight: 'bolder' }}>{item.isGlutenFree ? 'Gluténmentes' : 'Glutént tartalmaz!'}</Card.Text>
                     <Link to={`/${item.id}/edit`}>
                         <Button variant="primary" style={{ marginRight: '10px' }}>
                             Szerkesztés

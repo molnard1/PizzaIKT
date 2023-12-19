@@ -13,11 +13,6 @@ export default function NavbarComponent() {
 				<div className="collapse navbar-collapse" id="navbarNav">
 				<ul className="navbar-nav me-auto">
 					<li className="nav-item">
-					<a className="nav-link" href="/">
-						Főoldal
-					</a>
-					</li>
-					<li className="nav-item">
 					<a className="nav-link" href="/create">
 						Új Pizza </a>
 					</li>
