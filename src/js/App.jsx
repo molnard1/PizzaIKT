@@ -9,25 +9,6 @@ import NavbarComponent from "./components/NavbarComponent";
 import store from "./store";
 import { Provider } from "react-redux";
 
-class ErrorBoundary extends React.Component {
-	constructor(props) {
-	  super(props);
-	  this.state = { hasError: false };
-	}
-  
-	static getDerivedStateFromError(error) {
-	  return { hasError: true };
-	}
-  
-	render() {
-	  if (this.state.hasError) {
-		return this.props.fallback;
-	  }
-  
-	  return this.props.children;
-	}
-  }
-
 const router = createBrowserRouter([
     {
         path: "/",
