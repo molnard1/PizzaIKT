@@ -6,6 +6,27 @@ import CreatePizzaPage from "./components/NewPizzaPage";
 import UpdatePizzaPage from "./components/UpdatePizzaPage";
 import DeletePizzaPage from "./components/DeletePizzaPage";
 import NavbarComponent from "./components/NavbarComponent";
+import store from "./store";
+import { Provider } from "react-redux";
+
+class ErrorBoundary extends React.Component {
+	constructor(props) {
+	  super(props);
+	  this.state = { hasError: false };
+	}
+  
+	static getDerivedStateFromError(error) {
+	  return { hasError: true };
+	}
+  
+	render() {
+	  if (this.state.hasError) {
+		return this.props.fallback;
+	  }
+  
+	  return this.props.children;
+	}
+  }
 
 const router = createBrowserRouter([
     {
@@ -26,7 +47,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/:id/delete",
-				element: <DeletePizzaPage />,
+				element: <DeletePizzaPage />
 			},
 		]
     }
@@ -34,7 +55,9 @@ const router = createBrowserRouter([
 
 export default function App() {
     return (
-		<RouterProvider router={router}/>
+		<Provider store={store}>
+			<RouterProvider router={router}/>
+		</Provider>
     )
 }
 

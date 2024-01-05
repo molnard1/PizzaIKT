@@ -2,15 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { setPizzaData } from "../store";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ListPizzaPage() {
-    const [data, setData] = useState([]);
+    const data = useSelector((state) => state.pizzaData);
+    const dispatch = useDispatch();
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         (async () => {
             let res = await axios.get("https://pizza.kando-dev.eu/Pizza");
-            setData(res.data);
+            dispatch(setPizzaData(res.data));
             setLoaded(true);
         })();
     }, []);
@@ -18,7 +21,7 @@ export default function ListPizzaPage() {
     const items = data.map((item) => (
         <Col key={item.id} sm={4} style={{ marginTop: '10px', marginBottom: '20px' }}>
             <Card>
-                <Card.Img variant="top" src={item.kepURL} onError={(e) => {
+                <Card.Img variant="top" src={item.kepURL ?? "https://images.placeholders.dev?width=400&height=400"} onError={(e) => {
                     e.target.src = "https://images.placeholders.dev?width=400&height=400";
                 }} style={{ objectFit: 'cover', height: '25vw', width: '100%' }} />
                 <Card.Body style={{ textAlign: 'center' }}>
