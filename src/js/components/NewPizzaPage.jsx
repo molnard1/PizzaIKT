@@ -25,7 +25,11 @@ export default function CreatePizzaPage() {
           'Content-Type': 'application/json',
         },
       });
-      dispatch(setPizzaData([...data, modifiedPizzaData]));
+
+      // Refetch everything again, since the POST response does not have ID
+      let res = await axios.get("https://pizza.kando-dev.eu/Pizza");
+      dispatch(setPizzaData(res.data));
+
       setNavigateAway(true);
     } catch (error) {
       console.log(error);
