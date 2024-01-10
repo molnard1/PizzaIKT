@@ -10,7 +10,9 @@ export default function UpdatePizzaPage() {
     const dispatch = useDispatch();
     const [pizzaData, setPizza] = useState({
         id: 0,
-        name: ''
+        name: '',
+        kepURL: '',
+        isGlutenFree: false
     });
     const [navigateAway, setNavigateAway] = useState(false);
     const data = useSelector((state) => state.pizzaData);
