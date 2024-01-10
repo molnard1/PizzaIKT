@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { editPizzaLocal } from "../store";
 
 export default function UpdatePizzaPage() {
+    const dispatch = useDispatch();
     const [pizzaData, setPizza] = useState({
         id: 0,
         name: ''
     });
-    const [error, setError] = useState(false);
+    const [navigateAway, setNavigateAway] = useState(false);
     const data = useSelector((state) => state.pizzaData);
 
     useEffect(() => {
         let item = data.find((item) => item.id == window.location.pathname.split("/")[1]);
-        if (!item) setError(true);
         setPizza(item);
     }, []);
 
@@ -28,9 +29,10 @@ export default function UpdatePizzaPage() {
                     'Content-Type': 'application/json',
                 },
             });
-            window.location.href = "/";
+            dispatch(editPizzaLocal(pizzaData));
+            setNavigateAway(true);
         } catch (error) {
-            alert("Hiba");
+            console.log(error);
         }
     };
 
@@ -48,7 +50,7 @@ export default function UpdatePizzaPage() {
 
     return (
         <div>
-            {error ? <Navigate to="/" replace={true} /> :
+            {navigateAway ? <Navigate to="/" replace={true} /> :
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formPizzaName">
                         <Form.Label>Pizza neve</Form.Label>

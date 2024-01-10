@@ -1,23 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { setPizzaData } from "../store";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function ListPizzaPage() {
     const data = useSelector((state) => state.pizzaData);
-    const dispatch = useDispatch();
-    const [loaded, setLoaded] = useState(false);
-
-    useEffect(() => {
-        (async () => {
-            let res = await axios.get("https://pizza.kando-dev.eu/Pizza");
-            dispatch(setPizzaData(res.data));
-            setLoaded(true);
-        })();
-    }, []);
-
     const items = data.map((item) => (
         <Col key={item.id} sm={4} style={{ marginTop: '10px', marginBottom: '20px' }}>
             <Card>
@@ -42,17 +29,8 @@ export default function ListPizzaPage() {
 
 
     return (
-        <>
-            {loaded ? (
-                <Container>
-                    <Row>{[...items]}</Row>
-                </Container>
-            ) : (
-                <div className="d-flex flex-row min-vh-100 justify-content-center align-items-center">
-                    <Spinner animation="border" role="status" />
-                    <h1>Töltés...</h1>
-                </div>
-            )}
-        </>
+            <Container>
+                <Row>{[...items]}</Row>
+            </Container>
     );
 }

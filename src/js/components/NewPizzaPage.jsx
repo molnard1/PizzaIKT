@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setPizzaData } from "../store";
 
 export default function CreatePizzaPage() {
-  const [pizzaData, setPizzaData] = useState({
+  const data = useSelector((state) => state.pizzaData);
+  const dispatch = useDispatch();
+  const [navigateAway, setNavigateAway] = useState(false);
+  const [modifiedPizzaData, setModifiedPizzaData] = useState({
     name: "",
     kepURL: "",
     isGlutenFree: 0,
@@ -14,14 +20,15 @@ export default function CreatePizzaPage() {
     e.preventDefault();
 
     try {
-      await axios.post("https://pizza.kando-dev.eu/Pizza", pizzaData, {
+      await axios.post("https://pizza.kando-dev.eu/Pizza", modifiedPizzaData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      window.location.href = "/";
+      dispatch(setPizzaData([...data, modifiedPizzaData]));
+      setNavigateAway(true);
     } catch (error) {
-      alert("Hiba");
+      console.log(error);
     }
   };
 
@@ -29,13 +36,15 @@ export default function CreatePizzaPage() {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? (checked ? 1 : 0) : value;
 
-    setPizzaData((prevData) => ({
+    setModifiedPizzaData((prevData) => ({
       ...prevData,
       [name]: newValue,
     }));
   };
 
   return (
+    <div>
+    {navigateAway ?  <Navigate to="/" replace={true} /> :
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formPizzaName">
         <Form.Label>Pizza neve</Form.Label>
@@ -44,7 +53,7 @@ export default function CreatePizzaPage() {
           type="text"
           name="name"
           placeholder="Hatvansajtos Pizza"
-          value={pizzaData.name}
+          value={modifiedPizzaData.name}
           onChange={handleChange}
         />
       </Form.Group>
@@ -55,7 +64,7 @@ export default function CreatePizzaPage() {
           type="text"
           name="kepURL"
           placeholder="https://example.com/pizza.png"
-          value={pizzaData.kepURL}
+          value={modifiedPizzaData.kepURL}
           onChange={handleChange}
         />
       </Form.Group>
@@ -64,7 +73,7 @@ export default function CreatePizzaPage() {
           type="checkbox"
           name="isGlutenFree"
           label="Gluténmentes"
-          checked={pizzaData.isGlutenFree}
+          checked={modifiedPizzaData.isGlutenFree}
           onChange={handleChange}
         />
       </Form.Group>
@@ -72,5 +81,7 @@ export default function CreatePizzaPage() {
         Hozzáadás
       </Button>
     </Form>
-  );
+  }
+    </div>
+  )
 }
