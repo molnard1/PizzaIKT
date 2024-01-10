@@ -85,8 +85,11 @@ export default function UpdatePizzaPage() {
                             onChange={handleChange}
                         />
                     </Form.Group>
-                    <Button variant="success" type="submit">
+                    <Button variant="success" type="submit" style={{ marginRight: '10px' }}>
                         Szerkesztés
+                    </Button>
+                    <Button variant="secondary" onClick={() => setNavigateAway(true)}>
+                        Mégse
                     </Button>
                 </Form>
             }
