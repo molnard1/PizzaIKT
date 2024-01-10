@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPizzaData } from "../store";
 
 export default function CreatePizzaPage() {
-  const data = useSelector((state) => state.pizzaData);
   const dispatch = useDispatch();
   const [navigateAway, setNavigateAway] = useState(false);
   const [modifiedPizzaData, setModifiedPizzaData] = useState({
