@@ -15,6 +15,11 @@ export default function DeletePizzaPage() {
 
   useEffect(() => {
     let item = data.find((item) => item.id == window.location.pathname.split("/")[1]);
+
+    if(!item) {
+      setNavigateAway(true);
+    }
+
     setPizza(item);
   }, [data]);
 
